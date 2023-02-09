@@ -18,8 +18,8 @@ erb_template = ERB.new(template_letter)
 contents.each do |row|
   id = row[0]
   name = row[:first_name]
-  phone = PhoneParser.new.clean_phone_number(row[:homephone])
-  zipcode = ZipcodeParser.new.clean_zipcode(row[:zipcode])
+  phone = PhoneParser.new.parse(row[:homephone])
+  zipcode = ZipcodeParser.new.parse(row[:zipcode])
   legislators = LegislatorsApiGetter.new.fetch_by_zipcode(zipcode)
   form_letter = erb_template.result(binding)
   Writer.new.make_thank_you_letter(id, form_letter)
