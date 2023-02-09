@@ -4,6 +4,7 @@ require_relative './csv_reader.rb'
 require_relative './zipcode_parser.rb'
 require_relative './legislators_api_getter.rb'
 require_relative './writer.rb'
+require_relative './phone_parser.rb'
 
 require 'google/apis/civicinfo_v2'
 require 'erb'
@@ -17,6 +18,7 @@ erb_template = ERB.new(template_letter)
 contents.each do |row|
   id = row[0]
   name = row[:first_name]
+  phone = PhoneParser.new.clean_phone_number(row[:homephone])
   zipcode = ZipcodeParser.new.clean_zipcode(row[:zipcode])
   legislators = LegislatorsApiGetter.new.fetch_by_zipcode(zipcode)
   form_letter = erb_template.result(binding)
