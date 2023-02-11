@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RegistrationTimeAnalyzer
+class RegistrationAnalyzer
 
   def parse_date(arr)
     arr.map { |date| date_time = DateTime.strptime(date,'%m/%d/%y %H:%M') }
@@ -12,13 +12,16 @@ class RegistrationTimeAnalyzer
     puts day
   end
 
-  def most_active_hour(arr)
+  def most_active_hour(arr) 
     hours = arr.reduce(0) do |sum, date| 
       hour = date.hour
       minute = (date.minute).to_f / 60
       sum += (hour + minute).round(0) 
     end
+
     average = hours / arr.length
-    puts DateTime.strptime(average.to_s, '%H').strftime('%r')
+    average = DateTime.strptime(average.to_s, '%H').strftime('%r')
+
+    puts average
   end
 end
