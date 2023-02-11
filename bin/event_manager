@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/event_manager.rb'
+require_relative '../lib/event_manager'
 
+manager = EventManager.new
+manager.generate_thank_you_letter
+manager.highest_registration_day_and_hour
