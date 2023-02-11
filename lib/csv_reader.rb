@@ -4,7 +4,7 @@ require 'csv'
 
 class CsvReader
   def read(filename)
-    contents = CSV.open(
+    contents ||= CSV.open(
       filename,
       headers: true,
       header_converters: :symbol

@@ -34,25 +34,25 @@ class EventManager
     @reader.read('event_attendees.csv')
   end
 
-  def generate_thank_you_letter
-    load_csv_data
+  def generate_erb_template
     template_letter = File.read('form_letter.erb')
     erb_template = ERB.new(template_letter)
+  end
 
+  def generate_thank_you_letter
     load_csv_data.each do |row|
       id = row[0]
       name = row[:first_name]
       phone = @phone_parser.parse(row[:homephone])
       zipcode = @zipcode_parser.parse(row[:zipcode])    
       legislators = @legislators_getter.fetch_by_zipcode(zipcode)
-      form_letter = erb_template.result(binding)
+      form_letter = generate_erb_template.result(binding)
       @writer.make_thank_you_letter(id, form_letter)
     end
 
   end
 
   def highest_registration_day_and_hour
-    load_csv_data
     registration_dates = []
 
     load_csv_data.each do |row|
